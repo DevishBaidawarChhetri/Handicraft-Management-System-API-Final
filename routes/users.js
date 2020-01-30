@@ -7,8 +7,9 @@ router.route('/')
         try{
             const data = await userModel.find({})
             res.json({
-                data: data,
-                isSuccess: true
+                status: 200,
+                isSuccess: true.image,
+                data: data
             })
         }
         catch(err){
@@ -41,7 +42,7 @@ router.route('/')
         catch(err){
             res.json({
                 isSuccess:false,
-                error: err.errmsg,
+                error: err,
                 message: 'Something went wrong, user not registered'
             })
             console.log('User Registration failed.')
@@ -58,6 +59,7 @@ router.route('/login')
             if(data!=null){
                 if(password == data.password){
                     res.json({
+                        status: 200,
                         isSuccess: true,
                         message: 'Welcome, '+ data.fullName
                     })
@@ -83,4 +85,23 @@ router.route('/login')
             })
         }
     })
+router.route('/:id')
+    .get(async (req, res)=>{
+        try{
+            const data = await userModel.findById({_id:req.params.id})
+            res.json({
+                status: 200,
+                isSuccess: true,
+                data: data,
+                message: 'Fetched successfully'
+            })
+        }
+        catch(err){
+            res.json({
+                isSuccess: false,
+                error: err
+            })
+        }
+    })
+   
 module.exports = router;
