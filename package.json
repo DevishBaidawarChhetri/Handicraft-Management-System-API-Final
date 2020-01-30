@@ -1,0 +1,30 @@
+{
+  "name": "handicraft-management-system-api-final",
+  "version": "1.0.0",
+  "description": "This is a final API for Handicraft Management System | (Web API Assignment)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevishBaidawarChhetri/Handicraft-Management-System-API-Final.git"
+  },
+  "keywords": [
+    "Handicraft",
+    "M.S"
+  ],
+  "author": "Devish Baidawar Chhetri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevishBaidawarChhetri/Handicraft-Management-System-API-Final/issues"
+  },
+  "homepage": "https://github.com/DevishBaidawarChhetri/Handicraft-Management-System-API-Final#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.10"
+  }
+}
