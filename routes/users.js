@@ -103,5 +103,44 @@ router.route('/:id')
             })
         }
     })
-   
+    .put(async (req, res)=>{
+        const putData = userModel({
+            image: req.body.image,
+            fullName: req.body.fullName,
+            email: req.body.email,
+            telephone: req.body.telephone,
+            address: req.body.address,
+            gender: req.body.gender,
+            password: req.body.password
+        })
+        try{
+            const data = await userModel.updateOne({_id: req.params.id},
+            {
+                $set:{
+                    image: req.body.image,
+                    fullName: req.body.fullName,
+                    email: req.body.email,
+                    telephone: req.body.telephone,
+                    address: req.body.address,
+                    gender: req.body.gender,
+                    password: req.body.password
+                }
+            })
+            res.json({
+                status: 200,
+                isSuccess: true,
+                formData: putData,
+                data: data,
+                message: 'User Successfully Updated.'
+            })
+        }
+        catch(err){
+            res.json({
+                isSuccess: false,
+                error: err,
+                message: 'User Update failed.'
+            })
+        }
+    })
+    
 module.exports = router;
