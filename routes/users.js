@@ -142,5 +142,34 @@ router.route('/:id')
             })
         }
     })
-    
+    .delete(async (req, res)=>{
+        const data = await userModel.findOne({_id: req.params.id});
+        try{
+            if(data!=null){
+                const dataDelete = await userModel.deleteOne({_id: req.params.id})
+                res.json({
+                    status: 200,
+                    isSuccess: true,
+                    data: data,
+                    message: 'Successfully deleted'
+                })
+            }
+            else{
+                res.json({
+                    status: 410,
+                    isSuccess: false,
+                    data: data,
+                    message: 'No data found'
+                })
+            }
+        }
+        catch(err){
+            res.json({
+                status: 500,
+                isSuccess: false,
+                error: err,
+                message: 'Internal Server Error'
+            })
+        }
+    })
 module.exports = router;
