@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const contactModel = require('../models/users');
+const userModel = require('../models/users');
 
 router.route('/')
     .get(async (req, res)=>{
         try{
-            const data = await contactModel.find({})
+            const data = await userModel.find({})
             res.json({
                 data: data,
                 isSuccess: true
@@ -19,7 +19,7 @@ router.route('/')
         }
     })
     .post(async (req, res)=>{
-        const data = new contactModel({
+        const data = new userModel({
             image: req.body.image,
             fullName: req.body.fullName,
             email: req.body.email,
@@ -36,6 +36,45 @@ router.route('/')
                 isSuccess: true,
                 message: 'Successfully inserted'
             })
+            console.log('User Registered!')
+        }
+        catch(err){
+            res.json({
+                isSuccess:false,
+                error: err.errmsg,
+                message: 'Something went wrong, user not registered'
+            })
+            console.log('User Registration failed.')
+        }
+    })
+router.route('/login')
+    .post(async (req, res)=>{
+        const email = req.body.email;
+        const password = req.body.password;
+
+        try{
+            const data = await userModel.findOne({email: email});
+            // console.log(data);
+            if(data!=null){
+                if(password == data.password){
+                    res.json({
+                        isSuccess: true,
+                        message: 'Welcome, '+ data.fullName
+                    })
+                }
+                else{
+                    res.json({
+                        isSuccess: false,
+                        message: 'Password incorrect'
+                    })
+                }
+            }
+            else{
+                res.json({
+                    isSuccess: false,
+                    error: 'Please enter correct email'
+                })
+            }
         }
         catch(err){
             res.json({
@@ -44,5 +83,4 @@ router.route('/')
             })
         }
     })
-
 module.exports = router;

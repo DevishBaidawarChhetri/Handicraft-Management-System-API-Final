@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 
 // Include Routes start //
 const userRoute = require('./routes/users');
@@ -23,6 +24,7 @@ connect.then((db)=>{
 // Databases connection end //
 
 const app = express();
+app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({extended: true }));
