@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const userModel = require('../models/users');
+const jwt = require('jsonwebtoken');
+const jwtMiddleware = require('express-jwt-middleware');
+const bcrypt = require('bcryptjs');
+
+const jwtCheck = jwtMiddleware('SecretKey');
 
 router.route('/')
-    .get(async (req, res)=>{
+    .get(jwtCheck, async (req, res)=>{
         try{
             const data = await userModel.find({})
             res.json({
@@ -20,6 +25,7 @@ router.route('/')
         }
     })
     .post(async (req, res)=>{
+        const hash = await bcrypt.hash(req.body.password, 10);
         const data = new userModel({
             image: req.body.image,
             fullName: req.body.fullName,
@@ -27,7 +33,7 @@ router.route('/')
             telephone: req.body.telephone,
             address: req.body.address,
             gender: req.body.gender,
-            password: req.body.password
+            password: hash
         })
         try{
             const postData = await data.save()
@@ -55,13 +61,17 @@ router.route('/login')
 
         try{
             const data = await userModel.findOne({email: email});
+            const auth = bcrypt.compareSync(password, data.password);
+
             // console.log(data);
             if(data!=null){
-                if(password == data.password){
+                if(auth){
+                    const token = jwt.sign({email: email}, 'SecretKey');
                     res.json({
                         status: 200,
                         isSuccess: true,
-                        message: 'Welcome, '+ data.fullName
+                        message: 'Welcome, '+ data.fullName,
+                        accessToken: token
                     })
                 }
                 else{
@@ -86,7 +96,7 @@ router.route('/login')
         }
     })
 router.route('/:id')
-    .get(async (req, res)=>{
+    .get(jwtCheck, async (req, res)=>{
         try{
             const data = await userModel.findById({_id:req.params.id})
             res.json({
@@ -103,7 +113,7 @@ router.route('/:id')
             })
         }
     })
-    .put(async (req, res)=>{
+    .put(jwtCheck, async (req, res)=>{
         const putData = userModel({
             image: req.body.image,
             fullName: req.body.fullName,
@@ -142,7 +152,7 @@ router.route('/:id')
             })
         }
     })
-    .delete(async (req, res)=>{
+    .delete(jwtCheck, async (req, res)=>{
         const data = await userModel.findOne({_id: req.params.id});
         try{
             if(data!=null){
