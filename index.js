@@ -3,6 +3,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+// Include Routes start //
+const userRoute = require('./routes/users');
+// Includes Routes end //
+
 // Databases connection start //
 const url = 'mongodb://localhost:27017/sampleAPI';
 const connect = mongoose.connect(url,{
@@ -18,12 +22,14 @@ connect.then((db)=>{
 });
 // Databases connection end //
 
-// Routes start //
-
-// Routes end //
-const app = new express();
+const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.urlencoded({extended: true }));
+
+// Routes start //
+app.use('/user', userRoute);
+// Routes end //
 
 // Server port start //
 const port = process.env.PORT || 3000;
