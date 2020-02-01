@@ -3,7 +3,7 @@ var multer = require('multer');
 var path = require('path');
 
 var storage = multer.diskStorage({
-    destination: './public/uploads',
+    destination: './public/users/',
     filename: (req, file, callback) => {
         let ext = path.extname(file.originalname);
         callback(null, file.fieldname + '-' + Date.now() + ext);
@@ -31,6 +31,5 @@ uploadRouter.route('/')
         res.setHeader('Content-Type', 'application/json');
         res.json(req.file);
     });
-
 
 module.exports = uploadRouter;

@@ -6,6 +6,7 @@ const morgan = require('morgan');
 
 // Include Routes start //
 const userRoute = require('./routes/users');
+const userImgUpload = require('./user_img_upload');
 // Includes Routes end //
 
 // Databases connection start //
@@ -28,9 +29,11 @@ app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({extended: true }));
+app.use(express.static(__dirname + "/public"));
 
 // Routes start //
 app.use('/user', userRoute);
+app.use('/userImage', userImgUpload);
 // Routes end //
 
 // Server port start //
