@@ -71,7 +71,7 @@ router.route('/login')
                         status: 200,
                         isSuccess: true,
                         message: 'Welcome, '+ data.fullName,
-                        accessToken: token
+                        token: token
                     })
                 }
                 else{
