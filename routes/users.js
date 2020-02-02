@@ -91,7 +91,7 @@ router.route('/login')
         catch(err){
             res.json({
                 error: err,
-                message: 'Something went wrong'
+                message: 'Email Incorrect...'
             })
         }
     })
