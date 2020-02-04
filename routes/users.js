@@ -23,6 +23,7 @@ router.post('/register', (req, res, next) => {
             password: hash
         }).then((user) => {
             let token = jwt.sign({ _id: user._id }, process.env.SECRET);
+            console.log("User Registered!")
             res.json({ status: "Registered Successfully!", token: token });
         }).catch(next);
     });
@@ -44,6 +45,7 @@ router.post('/login', (req, res, next) => {
                             return next(err);
                         }
                         let token = jwt.sign({ _id: user._id }, process.env.SECRET);
+                        console.log("Login Successful!")
                         res.json({ status: 'Login success!', token: token });
                     }).catch(next);
             }
@@ -64,12 +66,12 @@ router.get('/user',auth.verifyUser,(req,res,next)=>{
     })
     .catch(next)
 })
-router.put('/userupdate',auth.verifyUser,(req,res,next)=>{
+router.put('/userUpdate',auth.verifyUser,(req,res,next)=>{
     User.findOneAndUpdate({_id: req.body._id}, req.body, { new: true }, (err, doc) => {
         if(!err) {
             res.json({ status: 'Profile Updated.'});
         } else {
-            Console.log('Error' + err );
+            console.log('Error' + err );
             res.json('Error on updating.');
         }
 
