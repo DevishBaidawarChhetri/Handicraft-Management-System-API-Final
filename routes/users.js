@@ -14,13 +14,13 @@ router.post('/register', (req, res, next) => {
 		return next(err);
         }
         User.create({
-            fullname: req.body.fullname,
-            address: req.body.address,
-            phone: req.body.phone,
+            image: req.body.image,
+            fullName: req.body.fullName,
             email: req.body.email,
-            password: hash,
-            conpassword: hash,
-            image: req.body.image
+            telephone: req.body.telephone,
+            address: req.body.address,
+            gender: req.body.gender,
+            password: hash
         }).then((user) => {
             let token = jwt.sign({ _id: user._id }, process.env.SECRET);
             res.json({ status: "Registered Successfully!", token: token });
@@ -67,10 +67,10 @@ router.get('/user',auth.verifyUser,(req,res,next)=>{
 router.put('/userupdate',auth.verifyUser,(req,res,next)=>{
     User.findOneAndUpdate({_id: req.body._id}, req.body, { new: true }, (err, doc) => {
         if(!err) {
-            res.json({ status: 'Profile Updated'});
+            res.json({ status: 'Profile Updated.'});
         } else {
             Console.log('Error' + err );
-            res.json('erroe on update');
+            res.json('Error on updating.');
         }
 
     });
