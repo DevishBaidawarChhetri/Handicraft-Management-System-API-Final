@@ -63,13 +63,14 @@ router.route('/login')
             const data = await userModel.findOne({email: email});
             const auth = bcrypt.compareSync(password, data.password);
 
-            // console.log(data);
+            console.log(data);
             if(data!=null){
                 if(auth){
                     const token = jwt.sign({email: email}, 'SecretKey');
                     res.json({
                         status: 200,
                         isSuccess: true,
+                        userID: data._id,
                         message: 'Welcome, '+ data.fullName,
                         token: token
                     })
