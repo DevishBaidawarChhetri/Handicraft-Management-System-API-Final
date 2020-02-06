@@ -29,6 +29,7 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+
 router.post('/login', (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then((user) => {
@@ -57,7 +58,7 @@ router.get('/me',auth.verifyUser,(req,res,next)=>{
     .then((result)=>{
         res.json(result)
     })
-    .catch(next)
+    .catch(next )
 })
 router.get('/user',auth.verifyUser,(req,res,next)=>{
     User.find({admin:false})
