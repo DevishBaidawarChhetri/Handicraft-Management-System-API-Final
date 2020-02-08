@@ -1,18 +1,32 @@
 const express = require('express');
 const Product = require('../models/products');
-// const auth = require('../auth');
+const auth = require('../auth');
 
 const router = express.Router();
 
 router.route('/')
-    .post((req,res,next) => {
-        let products = new Product(req.body);
-        products.save()
-            .then((products) => {
-                res.statusCode = 201;
-                res.json(products);
-            }).catch(next);
+    .post(auth.verifyUser, (req,res,next) => {
+        Product.create({
+            image: req.body.image,
+            productName: req.body.productName,
+            description: req.body.description,
+            originalPrice: req.body.originalPrice,
+            discountedPrice: req.body.discountedPrice
+        })
+        .then((Product) => {
+            res.statusCode = 200;
+            res.json(Product);
+        }).catch(next);
     })
+
+    // .post(auth.verifyUser, (req,res,next) => {
+    //     let products = new Product(req.body);
+    //     products.save()
+    //         .then((products) => {
+    //             res.statusCode = 200;
+    //             res.json(products);
+    //         }).catch(next);
+    // })
 
     .delete((req,res,next) => {
         Product.deleteMany({ adminId: req.user._id})
