@@ -6,23 +6,18 @@ const productSchema = new mongoose.Schema({
     },
     productName:{
         type: String,
-        required: true,
-        trim: true
+        required: true
     },
     description:{
         type: String,
-        required: true,
-        trim: true
+        required: true
     },
     originalPrice:{
-        type: Number,
-        required: true,
-        trim: true
+        type: String,
+        required: true
     },
     discountedPrice:{
-        type: Number,
-        required: true,
-        trim: true
+        type: String
     }
 }, {timestamps: true});
 
