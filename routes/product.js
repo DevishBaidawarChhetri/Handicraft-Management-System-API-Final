@@ -52,9 +52,9 @@ router.route('/:id')
         res.json({message: "Invalid method for inserting data."})
     })
 
-    .put((req,res,next) => {
+    .put(auth.verifyUser, (req,res,next) => {
         Product.findOneAndUpdate({
-            adminId: req.user._id,
+            // adminId: req.user._id,
             _id: req.params.id
         },
         {
