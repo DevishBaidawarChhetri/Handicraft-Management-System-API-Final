@@ -75,7 +75,6 @@ router.put('/userUpdate',auth.verifyUser,(req,res,next)=>{
             console.log('Error' + err );
             res.json('Error on updating.');
         }
-
     });
 });
 
